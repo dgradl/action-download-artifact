@@ -20,7 +20,6 @@ async function downloadAction(name, path) {
 }
 
 async function main() {
-    try {
         const token = core.getInput("github_token", { required: true })
         const [owner, repo] = core.getInput("repo", { required: true }).split("/")
         const path = core.getInput("path", { required: true })
@@ -215,7 +214,7 @@ async function main() {
         }
 
         core.setOutput("found_artifact", true)
-        
+
         for (const artifact of artifacts) {
             core.info(`==> Artifact: ${artifact.id}`)
 
@@ -262,15 +261,11 @@ async function main() {
             adm.extractAllTo(dir, true)
             core.endGroup()
         }
-    } catch (error) {
-        core.setOutput("found_artifact", false)
-        core.setOutput("error_message", error.message)
-        core.setFailed(error.message)
-    }
+
 
     function setExitMessage(ifNoArtifactFound, message) {
         core.setOutput("found_artifact", false)
-        
+
         switch (ifNoArtifactFound) {
             case "fail":
                 core.setFailed(message)
